@@ -77,6 +77,15 @@ def test_mean_historical_returns_dummy():
     test_answer = pd.Series([0.0086560, 0.0250000, 0.0128697, -0.03632333])
     pd.testing.assert_series_equal(mean, test_answer, rtol=1e-3)
 
+def test_mean_historical_returns_dummy1():
+    import os
+    file_path = os.path.join(os.path.dirname(__file__), "resources", '300072-1.csv')
+    data = pd.read_csv(file_path, parse_dates=True, index_col="Unnamed: 0")
+    data = data['close'].iloc[0:5]
+    mean = expected_returns.mean_historical_return(data, frequency=1)
+    test_answer = pd.Series([-0.0003625]).rename({0:'close'})
+    pd.testing.assert_series_equal(mean, test_answer, rtol=1e-3)
+    # pass
 
 def test_mean_historical_returns():
     df = get_data()
